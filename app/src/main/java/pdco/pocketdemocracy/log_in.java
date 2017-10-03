@@ -17,7 +17,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class log_in extends AppCompatActivity implements View.OnClickListener {
-
+    //Private Variables
     private Button buttonSignIn;
     private EditText editTextEmail;
     private EditText editTextPassword;
