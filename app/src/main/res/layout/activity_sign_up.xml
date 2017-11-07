@@ -12,15 +12,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/linearLayout">
+
         <TextView
-            android:textAlignment="center"
             android:id="@+id/textViewSignUpPage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="Sign Up"
+            android:textAlignment="center"
             android:textSize="30sp"
             android:textStyle="bold" />
+
         <EditText
             android:layout_margin="15dp"
             android:inputType="textEmailAddress"

@@ -66,6 +66,8 @@ public class log_in extends AppCompatActivity implements View.OnClickListener {
                         if(task.isSuccessful()){
                             finish();
                             startActivity(new Intent(getApplicationContext(),directory.class)); //start profile activity
+                        }else{
+                            Toast.makeText(log_in.this,"Log in was not successful.kianIsAbadie@gmai;l",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

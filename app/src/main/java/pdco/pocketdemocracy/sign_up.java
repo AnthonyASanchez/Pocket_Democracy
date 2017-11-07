@@ -33,7 +33,7 @@ public class sign_up extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_sign_up);
         firebaseAuth = FirebaseAuth.getInstance();
         if(firebaseAuth.getCurrentUser() != null){
-            Log.d("Message","The current user is not null");
+            Log.d("message","The current user is not null");
             //finish();
             //startActivity(new Intent(getApplicationContext(),directory.class)); //start profile //go to profile activity
         }
@@ -67,6 +67,12 @@ public class sign_up extends AppCompatActivity implements View.OnClickListener {
             //stopping the function execution
             return;
         }
+        if(password.length() < 6){
+            //password is to short
+            Toast.makeText(this, "Password must be over 6 characters", Toast.LENGTH_SHORT).show();
+            //stopping the function execution
+            return;
+        }
         //valid email and password
         firebaseAuth.createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -79,7 +85,9 @@ public class sign_up extends AppCompatActivity implements View.OnClickListener {
                             //we will start the profile activity here
                             //display toast only
                             //Toast.makeText(sign_up.this,"Registered Sucessfully!",Toast.LENGTH_SHORT).show();
-                        }else{
+
+                        }
+                        else{
                             Toast.makeText(sign_up.this,"Could not register email",Toast.LENGTH_SHORT).show();
 
                         }

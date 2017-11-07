@@ -45,7 +45,7 @@
         <TextView
             android:layout_margin="10dp"
             android:textAlignment="center"
-            android:text="Need an account? Regeister here."
+            android:text="Need an account? Register here."
             android:id="@+id/textViewSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

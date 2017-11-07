@@ -46,7 +46,7 @@ public class directory extends AppCompatActivity implements View.OnClickListener
         if(view == buttonLogout){
             firebaseAuth.signOut();
             finish();
-            startActivity(new Intent(this, log_in.class ));
+            startActivity(new Intent(this, chat_room.class ));
         }
     }
 }
