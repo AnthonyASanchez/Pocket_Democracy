@@ -17,6 +17,7 @@
         </activity>
         <activity android:name=".directory"></activity>
         <activity android:name=".log_in"></activity>
+        <activity android:name=".chat_room"></activity>
     </application>
 
 </manifest>

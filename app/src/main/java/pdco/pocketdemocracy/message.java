@@ -1,5 +1,10 @@
 package pdco.pocketdemocracy;
 
+import android.content.Intent;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.Date;
 
 /**
@@ -14,7 +19,7 @@ public class message {
 
     public message(String messageText, String messageUser) {
         this.messageText = messageText;
-        this.messageUser = messageUser;
+        this.messageUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
         // Initialize to current time
         messageTime = new Date().getTime();

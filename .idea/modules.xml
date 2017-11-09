@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PocketDemocracy.iml" filepath="$PROJECT_DIR$/PocketDemocracy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Pocket_Democracy.iml" filepath="$PROJECT_DIR$/Pocket_Democracy.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/log_in_page/log_in_page.iml" filepath="$PROJECT_DIR$/log_in_page/log_in_page.iml" />
     </modules>

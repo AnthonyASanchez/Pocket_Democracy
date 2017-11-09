@@ -15,6 +15,7 @@ public class directory extends AppCompatActivity implements View.OnClickListener
     private FirebaseAuth firebaseAuth;
     private TextView textViewUserEmail;
     private Button buttonLogout;
+    private Button buttonChat;
 
 
     @Override
@@ -34,19 +35,26 @@ public class directory extends AppCompatActivity implements View.OnClickListener
 
         textViewUserEmail = (TextView) findViewById(R.id.textViewUserEmail);
         buttonLogout = (Button) findViewById(R.id.buttonLogOut);
+        buttonChat = (Button) findViewById(R.id.buttonChat);
 
 
         textViewUserEmail.setText("Welcome "+user.getEmail());
         buttonLogout.setOnClickListener(this);
+        buttonChat.setOnClickListener(this);
 
     }
 
     @Override
     public void onClick(View view) {
+        if(view == buttonChat){
+            startActivity(new Intent(this, chat_room.class));
+        }
         if(view == buttonLogout){
             firebaseAuth.signOut();
             finish();
-            startActivity(new Intent(this, chat_room.class ));
+            //startActivity(new Intent(this, chat_room.class ));
         }
     }
+
+
 }
