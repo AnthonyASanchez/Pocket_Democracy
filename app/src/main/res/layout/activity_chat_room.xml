@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:id="@+id/fab"
+        android:src="@drawable/done_check_mark"
         android:tint="@android:color/white"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
@@ -21,7 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/fab"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:id="@+id/textInputLayout">
 
         <EditText
             android:layout_width="match_parent"
@@ -35,8 +37,8 @@
         android:id="@+id/list_of_messages"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/textInputLayout"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:divider="@android:color/transparent"
         android:dividerHeight="16dp" />
 </RelativeLayout>

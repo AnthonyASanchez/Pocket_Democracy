@@ -88,7 +88,7 @@ public class sign_up extends AppCompatActivity implements View.OnClickListener {
 
                         }
                         else{
-                            Toast.makeText(sign_up.this,"Could not register email",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(sign_up.this,"Could not register account",Toast.LENGTH_SHORT).show();
 
                         }
                     }
