@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "782308813031",
+    "firebase_url": "https://pocketdemocracy-c2f6c.firebaseio.com",
+    "project_id": "pocketdemocracy-c2f6c",
+    "storage_bucket": "pocketdemocracy-c2f6c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:782308813031:android:cd85f8b44462c1bf",
+        "android_client_info": {
+          "package_name": "pdco.pocketdemocracy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "782308813031-nla3ed7qiis1it1o9h8nhume9k9532t5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pdco.pocketdemocracy",
+            "certificate_hash": "073ced3f87650c831d7b40a9563aaf92fc8f98c4"
+          }
+        },
+        {
+          "client_id": "782308813031-an432cmkpnfdqims4ojvvgkaddraat3e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvC3eUzcK9yNKw39kC4JExLkH-8XnOnVo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "782308813031-an432cmkpnfdqims4ojvvgkaddraat3e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
