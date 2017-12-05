@@ -12,12 +12,14 @@
         <activity android:name=".sign_up">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".directory"></activity>
-        <activity android:name=".log_in"></activity>
-        <activity android:name=".chat_room"></activity>
+        <activity android:name=".directory" />
+        <activity android:name=".log_in" />
+        <activity android:name=".chat_room" />
+        <activity android:name=".create_vote"></activity>
     </application>
 
 </manifest>
