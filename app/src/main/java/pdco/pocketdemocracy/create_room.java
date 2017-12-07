@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.EditText;
 
@@ -14,6 +15,24 @@ import android.widget.EditText;
  */
 
 public class create_room extends DialogFragment{
+
+
+    public interface create_roomListener{
+        public void onEditLineFinish(DialogFragment dialog);
+    }
+
+    create_roomListener listener;
+
+    @Override
+    public void onAttach(Activity activity){
+        super.onAttach(activity);
+        try{
+            listener = (create_roomListener) activity;
+        }catch(ClassCastException e){
+            throw new ClassCastException(activity.toString() + " must implement chat_roomListener");
+        }
+    }
+
 
 
     @Override
@@ -26,7 +45,7 @@ public class create_room extends DialogFragment{
                 .setPositiveButton("Enter", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        listener.onEditLineFinish(create_room.this);
                       //  savedInstanceState.putString((EditText)dialogInterface.findViewById(R.id.new_chat_name), "new_chat_name");
                     }
                 })

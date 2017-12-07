@@ -1,5 +1,6 @@
 package pdco.pocketdemocracy;
 
+import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,12 +22,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class directory extends AppCompatActivity implements View.OnClickListener {
+public class directory extends AppCompatActivity implements View.OnClickListener, create_room.create_roomListener {
 
     private FirebaseAuth firebaseAuth;
     private TextView textViewUserEmail;
     private Button buttonLogout;
     private Button buttonChat;
+    private DatabaseReference chat_room_reference;
     private FirebaseListAdapter<chat_door> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,29 +77,31 @@ public class directory extends AppCompatActivity implements View.OnClickListener
         listOfRooms.setAdapter(adapter);
     }
 
-    public void addChatRoom(){
-        DatabaseReference db;
-        Bundle b = new Bundle();
+    public void promptForChatName(){
         DialogFragment dialogFrag = new create_room();
         dialogFrag.show(getFragmentManager(),"CreateRoom");
-        
-
-        //Log.i(create_room_view.findViewById(R.id.room_name).toString(),create_room_view.findViewById(R.id.room_name).toString());
-        //db = FirebaseDatabase.getInstance().getReference().child("ChatRooms").push(new chat_door());
-
     }
-    public void getRoomName(){
-        create_room fragment = (create_room)getFragmentManager().findFragmentByTag("CreateRoom");
-        View frag = fragment.getView();
-        EditText name_room = (EditText) frag.findViewById(R.id.room_name);
+    //Interface used by the dialogfragment (create_room) This will be
+    //Called when the enter button is clicked
+    @Override
+    public void onEditLineFinish(DialogFragment dialog){
+        Dialog dialogView = dialog.getDialog();
+        EditText room_name = (EditText)dialogView.findViewById(R.id.new_chat_name);
+        if(room_name.getText().toString().equals("")){
+            Toast.makeText(directory.this, "Chat room must have a name", Toast.LENGTH_SHORT).show();
+        }else{
+            //Get reference to chatroom in database and fill with text
+            Log.i("String: ",room_name.getText().toString());
+            chat_room_reference = FirebaseDatabase.getInstance().getReference().child("ChatRooms");
+            chat_room_reference.push().setValue(room_name.getText().toString());
+            room_name.setText("");
+        }
 
-        Log.i(name_room.toString(),name_room.toString());
     }
     @Override
     public void onClick(View view) {
         if(view == buttonChat){
-            addChatRoom();
-            //getRoomName();
+            promptForChatName();
             //Log.i("CHAT ROOM", "CHAT ROOM");
             //startActivity(new Intent(this, chat_room.class));
         }
