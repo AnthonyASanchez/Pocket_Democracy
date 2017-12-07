@@ -10,6 +10,7 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -76,18 +77,28 @@ public class directory extends AppCompatActivity implements View.OnClickListener
     public void addChatRoom(){
         DatabaseReference db;
         Bundle b = new Bundle();
-       // DialogFragment dialogFrag = new create_room(b);
-       // dialogFrag.show()
+        DialogFragment dialogFrag = new create_room();
+        dialogFrag.show(getFragmentManager(),"CreateRoom");
+        
+
+        //Log.i(create_room_view.findViewById(R.id.room_name).toString(),create_room_view.findViewById(R.id.room_name).toString());
         //db = FirebaseDatabase.getInstance().getReference().child("ChatRooms").push(new chat_door());
 
     }
+    public void getRoomName(){
+        create_room fragment = (create_room)getFragmentManager().findFragmentByTag("CreateRoom");
+        View frag = fragment.getView();
+        EditText name_room = (EditText) frag.findViewById(R.id.room_name);
 
+        Log.i(name_room.toString(),name_room.toString());
+    }
     @Override
     public void onClick(View view) {
         if(view == buttonChat){
-            //addChatRoom();
+            addChatRoom();
+            //getRoomName();
             //Log.i("CHAT ROOM", "CHAT ROOM");
-            startActivity(new Intent(this, chat_room.class));
+            //startActivity(new Intent(this, chat_room.class));
         }
         if(view == buttonLogout){
             firebaseAuth.signOut();

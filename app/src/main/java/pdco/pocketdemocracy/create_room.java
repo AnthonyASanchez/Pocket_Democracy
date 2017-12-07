@@ -1,5 +1,6 @@
 package pdco.pocketdemocracy;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 
 public class create_room extends DialogFragment{
 
+
     @Override
     public Dialog onCreateDialog(final Bundle savedInstanceState){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -24,6 +26,7 @@ public class create_room extends DialogFragment{
                 .setPositiveButton("Enter", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+
                       //  savedInstanceState.putString((EditText)dialogInterface.findViewById(R.id.new_chat_name), "new_chat_name");
                     }
                 })
