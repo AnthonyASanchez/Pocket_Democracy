@@ -65,7 +65,7 @@ public class directory extends AppCompatActivity implements View.OnClickListener
                 R.layout.activity_chat_door, FirebaseDatabase.getInstance().getReference().child("ChatRooms")) {
             @Override
             protected void populateView(View v, chat_door model, int position) {
-                TextView room_name = (TextView)v.findViewById(R.id.room_name);
+                EditText room_name = (EditText) v.findViewById(R.id.room_door_name);
                 TextView room_key = (TextView)v.findViewById(R.id.room_key);
                 Button delete_button = (Button)v.findViewById(R.id.room_delete);
                 room_name.setText(model.getRoom_name());
@@ -92,9 +92,8 @@ public class directory extends AppCompatActivity implements View.OnClickListener
         }else{
             //Get reference to chatroom in database and fill with text
             Log.i("String: ",room_name.getText().toString());
-            chat_room_reference = FirebaseDatabase.getInstance().getReference().child("ChatRooms");
-            chat_room_reference.push().setValue(room_name.getText().toString());
-            room_name.setText("");
+            chat_room_reference = FirebaseDatabase.getInstance().getReference().child("ChatRooms").push();
+            chat_room_reference.setValue(new chat_door(room_name.getText().toString()));
         }
 
     }

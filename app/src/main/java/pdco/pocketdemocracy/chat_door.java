@@ -12,7 +12,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.DateFormat;
 import java.util.Random;
 
-public class chat_door extends AppCompatActivity implements View.OnClickListener{
+public class chat_door {
 
     private String room_name;
     private String key;
@@ -25,8 +25,11 @@ public class chat_door extends AppCompatActivity implements View.OnClickListener
         for(int i = 0; i < 5; i++){
             code = code + String.valueOf(rand.nextInt(9) + 1);
         }
-        Log.i(key,key);
+        Log.i("key",code);
         key = code;
+    }
+    public chat_door(){
+
     }
 
     public String getRoom_name() {
@@ -39,10 +42,5 @@ public class chat_door extends AppCompatActivity implements View.OnClickListener
         return key;
     }
 
-    @Override
-    public void onClick(View view) {
-        if(view == deleteButton){
-            //Delete this activity
-        }
-    }
+
 }
