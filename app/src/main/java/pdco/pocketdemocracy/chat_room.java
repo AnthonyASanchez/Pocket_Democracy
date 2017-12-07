@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -19,6 +20,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Date;
+
 /**
  * Created by CaveMonster on 11/1/2017.
  */
@@ -27,7 +30,7 @@ public class chat_room extends AppCompatActivity implements View.OnClickListener
 
     private FirebaseListAdapter<message> adapter;
     private FloatingActionButton addVote;
-    private DatabaseReference voteReference;
+    private DatabaseReference candidateReference;
     private DatabaseReference roomReference;
 
 
@@ -46,6 +49,7 @@ public class chat_room extends AppCompatActivity implements View.OnClickListener
                 // of ChatMessage to the Firebase database
                 FirebaseDatabase.getInstance()
                         .getReference()
+                        .child("Messages")
                         .push()
                         .setValue(new message(input.getText().toString(),
                                 FirebaseAuth.getInstance()
@@ -60,20 +64,20 @@ public class chat_room extends AppCompatActivity implements View.OnClickListener
 
         addVote = (FloatingActionButton) findViewById(R.id.addVote);
         addVote.setOnClickListener(this);
-
-        if(voteReference == null){
+        if(candidateReference == null){
             roomReference = FirebaseDatabase.getInstance().getReference();
+            //Toast.makeText(chat_room.this, "room", Toast.LENGTH_SHORT).show();
             roomReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     if (!snapshot.hasChildren()) {
                         //Toast.makeText(chat_room.this, "Start up", Toast.LENGTH_SHORT).show();
-                        voteReference = FirebaseDatabase.getInstance().getReference().push();
-                        voteReference.setValue(new vote());
+                        candidateReference = FirebaseDatabase.getInstance().getReference().child("Candidate");
+                        candidateReference.setValue(new vote());
                     }
                     else{
                         for(DataSnapshot child: snapshot.getChildren()){
-                            voteReference = child.getRef();
+                            candidateReference = child.getRef();
                             break;
                         }
                     }
@@ -87,7 +91,6 @@ public class chat_room extends AppCompatActivity implements View.OnClickListener
         }
 
         displayChatMessages();
-
     }
 
 
@@ -103,22 +106,24 @@ public class chat_room extends AppCompatActivity implements View.OnClickListener
                 TextView messageUser = (TextView)v.findViewById(R.id.message_user);
                 TextView messageTime = (TextView)v.findViewById(R.id.message_time);
 
+
                 // Set their text
                 messageText.setText(model.getMessageText());
                 messageUser.setText(model.getMessageUser());
 
                 // Format the date before showing it
-                messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
+                messageTime.setText(DateFormat.format("HH:mm",
                         model.getMessageTime()));
             }
         };
+        //Log.i(FirebaseDatabase.getInstance().getReference().child("Messages").push().toString(),FirebaseDatabase.getInstance().getReference().child("Messages").push().toString());
 
         listOfMessages.setAdapter(adapter);
     }
 
     public void addVote(){
         Bundle b = new Bundle();
-        b.putString("voteReference", voteReference.toString());
+        b.putString("voteReference", candidateReference.toString());
         Intent intent = new Intent(chat_room.this, create_vote.class);
         intent.putExtras(b);
         startActivity(intent);

@@ -19,7 +19,8 @@
         <activity android:name=".directory" />
         <activity android:name=".log_in" />
         <activity android:name=".chat_room" />
-        <activity android:name=".create_vote"></activity>
+        <activity android:name=".create_vote" />
+        <activity android:name=".chat_door"></activity>
     </application>
 
 </manifest>
