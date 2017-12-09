@@ -1,5 +1,6 @@
 package pdco.pocketdemocracy;
 
+import android.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,11 @@ public class create_vote extends AppCompatActivity implements View.OnClickListen
     private EditText voteTitle;
     private Button castVote;
     private DatabaseReference voteReference;
+
+    @Override
+    public void onSaveInstanceState(Bundle outState){
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +39,8 @@ public class create_vote extends AppCompatActivity implements View.OnClickListen
 
     public void sendVote(){
         String voteTitleText = voteTitle.getText().toString();
-        voteReference.setValue(new vote(voteTitleText, ""));
+        voteReference.setValue(new vote(voteTitleText, "Empty"));
+        finish();
     }
 
     @Override

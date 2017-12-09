@@ -55,7 +55,7 @@ public class directory extends AppCompatActivity implements View.OnClickListener
         buttonChat.setOnClickListener(this);
 
 
-        displayRooms();
+        //displayRooms();
     }
 
     public void displayRooms(){
@@ -100,9 +100,9 @@ public class directory extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onClick(View view) {
         if(view == buttonChat){
-            promptForChatName();
+            //promptForChatName();
             //Log.i("CHAT ROOM", "CHAT ROOM");
-            //startActivity(new Intent(this, chat_room.class));
+            startActivity(new Intent(this, chat_room.class));
         }
         if(view == buttonLogout){
             firebaseAuth.signOut();

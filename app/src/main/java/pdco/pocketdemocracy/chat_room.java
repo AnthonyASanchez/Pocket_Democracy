@@ -1,7 +1,10 @@
 package pdco.pocketdemocracy;
 
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
@@ -33,6 +36,9 @@ public class chat_room extends AppCompatActivity implements View.OnClickListener
     private DatabaseReference candidateReference;
     private DatabaseReference roomReference;
 
+    private String oldTitle;
+    private long endTimer;
+    private long startTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -64,22 +70,15 @@ public class chat_room extends AppCompatActivity implements View.OnClickListener
 
         addVote = (FloatingActionButton) findViewById(R.id.addVote);
         addVote.setOnClickListener(this);
+
         if(candidateReference == null){
             roomReference = FirebaseDatabase.getInstance().getReference();
-            //Toast.makeText(chat_room.this, "room", Toast.LENGTH_SHORT).show();
             roomReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     if (!snapshot.hasChildren()) {
-                        //Toast.makeText(chat_room.this, "Start up", Toast.LENGTH_SHORT).show();
-                        candidateReference = FirebaseDatabase.getInstance().getReference().child("Candidate");
-                        candidateReference.setValue(new vote());
-                    }
-                    else{
-                        for(DataSnapshot child: snapshot.getChildren()){
-                            candidateReference = child.getRef();
-                            break;
-                        }
+                        FirebaseDatabase.getInstance().getReference().child("Candidate")
+                                .setValue(new vote("empty", "empty"));
                     }
                 }
 
@@ -88,7 +87,115 @@ public class chat_room extends AppCompatActivity implements View.OnClickListener
                     Toast.makeText(chat_room.this, "Error", Toast.LENGTH_SHORT).show();
                 }
             });
+            candidateReference = FirebaseDatabase.getInstance().getReference().child("Candidate");
         }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                candidateReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        oldTitle = dataSnapshot.getValue(vote.class).getTitle();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        }, 5000);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                candidateReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(final DataSnapshot dataSnapshot) {
+                        //dataSnapshot.getValue(vote.class).getTitle()
+                        String title = dataSnapshot.getValue(vote.class).getTitle();
+                        if(!title.equals(oldTitle) && !title.equals("empty")){
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    DialogFragment dialogFrag = new vote_prompt();
+                                    Bundle b = new Bundle();
+                                    b.putString("voteTitle", dataSnapshot.getValue(vote.class).getTitle());
+                                    b.putString("candidateReference", candidateReference.toString());
+                                    dialogFrag.setArguments(b);
+                                    dialogFrag.show(getFragmentManager(),"VotePrompt");
+                                    startTimer = (System.currentTimeMillis()/1000);
+                                    endTimer = (System.currentTimeMillis()/1000) + 15;
+                                }
+                            }, 2500);
+                            oldTitle = title;
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(chat_room.this, "Error", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }, 2500);
+
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(1000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if((endTimer - startTimer) < 0){
+                                    candidateReference.child("Votes").addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            int voteSum = 0;
+                                            for(DataSnapshot child : dataSnapshot.getChildren()){
+                                                voteSum = voteSum + child.getValue(Integer.class);
+                                            }
+                                            if(voteSum > 0){
+                                                DialogFragment dialogFrag = new vote_notify();
+                                                Bundle b = new Bundle();
+                                                b.putString("result", "Passed");
+                                                dialogFrag.setArguments(b);
+                                                dialogFrag.show(getFragmentManager(),"VoteNotify");
+                                            }
+                                            else{
+                                                DialogFragment dialogFrag = new vote_notify();
+                                                Bundle b = new Bundle();
+                                                b.putString("result", "Denied");
+                                                dialogFrag.setArguments(b);
+                                                dialogFrag.show(getFragmentManager(),"VoteNotify");
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                    endTimer = 0;
+                                    startTimer = 0;
+                                }
+                                else{
+                                    if(startTimer != 0 && endTimer != 0){
+                                        startTimer = startTimer + 1;
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+                catch (InterruptedException e) {
+                }
+            }
+        };
+        t.start();
 
         displayChatMessages();
     }
