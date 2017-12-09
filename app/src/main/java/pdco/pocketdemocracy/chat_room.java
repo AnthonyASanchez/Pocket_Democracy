@@ -158,20 +158,18 @@ public class chat_room extends AppCompatActivity implements View.OnClickListener
                                             for(DataSnapshot child : dataSnapshot.getChildren()){
                                                 voteSum = voteSum + child.getValue(Integer.class);
                                             }
+                                            DialogFragment dialogFrag = new vote_notify();
+                                            Bundle b = new Bundle();
                                             if(voteSum > 0){
-                                                DialogFragment dialogFrag = new vote_notify();
-                                                Bundle b = new Bundle();
                                                 b.putString("result", "Passed");
-                                                dialogFrag.setArguments(b);
-                                                dialogFrag.show(getFragmentManager(),"VoteNotify");
                                             }
                                             else{
-                                                DialogFragment dialogFrag = new vote_notify();
-                                                Bundle b = new Bundle();
                                                 b.putString("result", "Denied");
-                                                dialogFrag.setArguments(b);
-                                                dialogFrag.show(getFragmentManager(),"VoteNotify");
                                             }
+                                            dialogFrag.setArguments(b);
+                                            dialogFrag.show(getFragmentManager(),"VoteNotify");
+                                            FirebaseDatabase.getInstance().getReference().child("Candidate")
+                                                    .setValue(new vote("empty", "empty"));
                                         }
 
                                         @Override
