@@ -30,7 +30,7 @@
             android:layout_weight=".03"
             android:layout_height="match_parent"
             android:layout_margin="3dp"
-            android:layout_toLeftOf="@id/room_delete"
+            android:layout_toLeftOf="@id/room_join"
             android:id="@+id/room_key"
             android:textStyle="normal|bold" />
 
@@ -40,7 +40,7 @@
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_alignParentEnd="true"
-            android:id="@+id/room_delete" />
+            android:id="@+id/room_join" />
     </LinearLayout>
 
 

@@ -39,11 +39,20 @@ public class chat_room extends AppCompatActivity implements View.OnClickListener
     private String oldTitle;
     private long endTimer;
     private long startTimer;
+    private String key;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
+
+        Bundle b = getIntent().getExtras();
+        String keycode = b.getString("key");
+        key = keycode;
+        Log.i("KEYCODE IN ROOM",key);
+        FirebaseDatabase.getInstance()
+                .getReference()
+                .child("ChatRooms/" + key);
         FloatingActionButton fab =
                 (FloatingActionButton)findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -55,7 +64,7 @@ public class chat_room extends AppCompatActivity implements View.OnClickListener
                 // of ChatMessage to the Firebase database
                 FirebaseDatabase.getInstance()
                         .getReference()
-                        .child("Messages")
+                        .child("ChatRooms/" +key+"/Messages")
                         .push()
                         .setValue(new message(input.getText().toString(),
                                 FirebaseAuth.getInstance()
@@ -77,7 +86,7 @@ public class chat_room extends AppCompatActivity implements View.OnClickListener
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     if (!snapshot.hasChildren()) {
-                        FirebaseDatabase.getInstance().getReference().child("Candidate")
+                        FirebaseDatabase.getInstance().getReference().child("ChatRooms/" +key+"/Candidate")
                                 .setValue(new vote("empty", "empty"));
                     }
                 }
@@ -87,10 +96,10 @@ public class chat_room extends AppCompatActivity implements View.OnClickListener
                     Toast.makeText(chat_room.this, "Error", Toast.LENGTH_SHORT).show();
                 }
             });
-            candidateReference = FirebaseDatabase.getInstance().getReference().child("Candidate");
+            candidateReference = FirebaseDatabase.getInstance().getReference().child("ChatRooms/" +key+"/Candidate");
         }
 
-        new Handler().postDelayed(new Runnable() {
+        /*new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 candidateReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -168,7 +177,7 @@ public class chat_room extends AppCompatActivity implements View.OnClickListener
                                             }
                                             dialogFrag.setArguments(b);
                                             dialogFrag.show(getFragmentManager(),"VoteNotify");
-                                            FirebaseDatabase.getInstance().getReference().child("Candidate")
+                                            FirebaseDatabase.getInstance().getReference().child("ChatRooms/" +key+"/Candidate")
                                                     .setValue(new vote("empty", "empty"));
                                         }
 
@@ -194,7 +203,7 @@ public class chat_room extends AppCompatActivity implements View.OnClickListener
             }
         };
         t.start();
-
+*/
         displayChatMessages();
     }
 
@@ -203,7 +212,7 @@ public class chat_room extends AppCompatActivity implements View.OnClickListener
         ListView listOfMessages = (ListView)findViewById(R.id.list_of_messages);
 
         adapter = new FirebaseListAdapter<message>(this, message.class,
-                R.layout.activity_message, FirebaseDatabase.getInstance().getReference().child("Messages")) {
+                R.layout.activity_message, FirebaseDatabase.getInstance().getReference().child("ChatRooms/" +key+"/Messages")) {
             @Override
             protected void populateView(View v, message model, int position) {
                 // Get references to the views of message.xml

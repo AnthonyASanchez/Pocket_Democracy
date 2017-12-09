@@ -18,12 +18,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="You are currently logged in" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/createChatButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:text="Create Chat" />
+            <Button
+                android:id="@+id/joinChatButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Join Chat" />
 
-        <Button
-            android:id="@+id/buttonChat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Enter Chat" />
+        </LinearLayout>
+
         <ListView
             android:id="@+id/list_of_rooms"
             android:layout_width="wrap_content"
