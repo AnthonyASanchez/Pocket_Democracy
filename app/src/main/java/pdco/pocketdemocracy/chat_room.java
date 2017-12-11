@@ -49,10 +49,7 @@ public class chat_room extends AppCompatActivity implements View.OnClickListener
         Bundle b = getIntent().getExtras();
         String keycode = b.getString("key");
         key = keycode;
-        Log.i("KEYCODE IN ROOM",key);
-        FirebaseDatabase.getInstance()
-                .getReference()
-                .child("ChatRooms/" + key);
+        //Log.i("KEYCODE IN ROOM",key);
         FloatingActionButton fab =
                 (FloatingActionButton)findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -80,26 +77,13 @@ public class chat_room extends AppCompatActivity implements View.OnClickListener
         addVote = (FloatingActionButton) findViewById(R.id.addVote);
         addVote.setOnClickListener(this);
 
-        if(candidateReference == null){
-            roomReference = FirebaseDatabase.getInstance().getReference();
-            roomReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot snapshot) {
-                    if (!snapshot.hasChildren()) {
-                        FirebaseDatabase.getInstance().getReference().child("ChatRooms/" +key+"/Candidate")
-                                .setValue(new vote("empty", "empty"));
-                    }
-                }
+        //Creating candidate node
+        FirebaseDatabase.getInstance().getReference().child("ChatRooms/" +key+"/Candidate")
+                .setValue(new vote("empty", "empty"));
+        roomReference = FirebaseDatabase.getInstance().getReference().child("ChatRooms/" +key);
+        candidateReference = FirebaseDatabase.getInstance().getReference().child("ChatRooms/" +key+"/Candidate");
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Toast.makeText(chat_room.this, "Error", Toast.LENGTH_SHORT).show();
-                }
-            });
-            candidateReference = FirebaseDatabase.getInstance().getReference().child("ChatRooms/" +key+"/Candidate");
-        }
-
-        /*new Handler().postDelayed(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 candidateReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -203,7 +187,7 @@ public class chat_room extends AppCompatActivity implements View.OnClickListener
             }
         };
         t.start();
-*/
+
         displayChatMessages();
     }
 
