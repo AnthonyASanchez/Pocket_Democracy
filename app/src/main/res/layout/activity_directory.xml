@@ -11,47 +11,65 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_centerVertical="true"
+        android:background="#ffffff"
         >
 
         <TextView
             android:id="@+id/textViewUserEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="You are currently logged in" />
+            android:layout_margin="10dp"
+            android:layout_gravity="center_horizontal"
+            android:textSize="20sp"
+            android:text="Welcome to Pocket Democracy!" />
         <LinearLayout
             android:orientation="horizontal"
             android:layout_gravity="center"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <Button
                 android:id="@+id/createChatButton"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight=".3"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="30dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:background="@color/colorAccent"
+                android:textColor="#ffffff"
                 android:text="Create Chat" />
             <Button
                 android:id="@+id/joinChatButton"
-                android:layout_width="match_parent"
+                android:background="@color/colorAccent"
+                android:layout_width="0dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight=".3"
+                android:textColor="#ffffff"
                 android:layout_height="wrap_content"
                 android:text="Join Chat" />
+            <Button
+                android:id="@+id/buttonLogOut"
+                android:layout_marginRight="5dp"
+                android:layout_width="0dp"
+                android:layout_weight=".3"
+                android:textColor="#ffffff"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:text="LogOut" />
 
         </LinearLayout>
 
         <ListView
             android:id="@+id/list_of_rooms"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/textInputLayout"
             android:layout_alignParentStart="true"
             android:divider="@android:color/transparent"
-            android:dividerHeight="16dp" >
+            android:background="#ffffff"
+            android:dividerHeight="0dp" >
 
         </ListView>
-        <Button
-            android:id="@+id/buttonLogOut"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="LogOut" />
+
     </LinearLayout>
 
 </RelativeLayout>

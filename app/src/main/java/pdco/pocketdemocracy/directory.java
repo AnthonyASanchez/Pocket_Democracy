@@ -4,12 +4,16 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,7 +58,7 @@ public final class directory extends AppCompatActivity implements View.OnClickLi
         joinChatButton = (Button) findViewById(R.id.joinChatButton);
 
 
-        textViewUserEmail.setText("Welcome "+user.getEmail());
+        //textViewUserEmail.setText("Welcome to Pocket Democracy!");
         buttonLogout.setOnClickListener(this);
         createChatButton.setOnClickListener(this);
         joinChatButton.setOnClickListener(this);
@@ -72,22 +76,53 @@ public final class directory extends AppCompatActivity implements View.OnClickLi
         adapter = new FirebaseListAdapter<chat_door>(this,  chat_door.class,
                 R.layout.activity_chat_door, FirebaseDatabase.getInstance().getReference().child(s)) {
             @Override
-            protected void populateView(View v, final chat_door model, int position) {
+            protected void populateView(View v, final chat_door model, final int position) {
                     //ArrayList<String> list = model.getGuest_list();
-                    EditText room_name = (EditText) v.findViewById(R.id.room_door_name);
+                    TextView room_name = (TextView) v.findViewById(R.id.room_door_name);
                     TextView room_key = (TextView) v.findViewById(R.id.room_key);
-                    Button delete_button = (Button) v.findViewById(R.id.room_join);
-                    room_name.setText(model.getRoom_name());
-                    room_key.setText(model.getKey());
-                    delete_button.setOnClickListener(new View.OnClickListener() {
+                    FloatingActionButton delete_button = (FloatingActionButton) v.findViewById(R.id.room_join);
+                    final LinearLayout layout = (LinearLayout) v.findViewById(R.id.lin_layout_door);
+                    layout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+
                             Log.i("Yes","It is listening");
                             Bundle b = new Bundle();
                             b.putString("key", model.getKey());
                             Intent intent = new Intent(directory.this, chat_room.class);
                             intent.putExtras(b);
                             startActivity(intent);
+                            //layout.setBackgroundColor(Color.parseColor("#ffffff"));
+                        }
+                    });
+                    room_name.setText(model.getRoom_name());
+                    room_key.setText("Key: " +model.getKey());
+                    delete_button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            FirebaseDatabase.getInstance().getReference().child(getUserRef())
+                                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            for(DataSnapshot snap : dataSnapshot.getChildren()){
+                                                chat_door cd = snap.getValue(chat_door.class);
+                                                if(cd.getKey().equals(model.getKey())){
+                                                    snap.getRef().removeValue();
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
+                           /* Log.i("Yes","It is listening");
+                            Bundle b = new Bundle();
+                            b.putString("key", model.getKey());
+                            Intent intent = new Intent(directory.this, chat_room.class);
+                            intent.putExtras(b);
+                            startActivity(intent);*/
                         }
                     });
             }
@@ -106,10 +141,13 @@ public final class directory extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onEditLineFinish(DialogFragment dialog){
         Dialog dialogView = dialog.getDialog();
-        EditText room_name = (EditText)dialogView.findViewById(R.id.new_chat_name);
+        TextView room_name = (TextView)dialogView.findViewById(R.id.new_chat_name);
         if(room_name.getText().toString().equals("")){
             Toast.makeText(directory.this, "Chat room must have a name", Toast.LENGTH_SHORT).show();
-        }else{
+        }else if(room_name.getText().toString().length()>=16){
+            Toast.makeText(directory.this, "Chat room name must not have more than 13 characters", Toast.LENGTH_SHORT).show();
+        }
+        else{
             //Get reference to chatroom in database and fill with text
             Log.i("String: ",FirebaseAuth.getInstance().getCurrentUser().getEmail());
             String s = FirebaseAuth.getInstance().getCurrentUser().getEmail();

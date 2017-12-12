@@ -8,6 +8,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:text="Please enter chat room name."
+        android:layout_margin="5dp"
         />
     <EditText
         android:id="@+id/new_chat_name"
@@ -17,6 +19,6 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp"
-        android:hint="Name" />
+        android:hint="ex:The Oval Office" />
 
 </LinearLayout>

@@ -8,40 +8,58 @@
     tools:context="pdco.pocketdemocracy.chat_door">
 
     <LinearLayout
+        android:id="@+id/lin_layout_door"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_margin="2dp"
         android:orientation="horizontal"
-        android:background="@android:drawable/dialog_holo_light_frame"
+
+
         >
-        <EditText
+        <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".05"
+            android:layout_height="match_parent"
+            android:layout_weight=".03"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_margin="0dp"
+            android:layout_marginLeft="5dp"
+            android:gravity="center"
             android:id="@+id/room_door_name"
             android:maxLength="20"
+            android:textSize="20sp"
             android:textStyle="normal|bold" />
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight=".03"
+            android:layout_weight=".018"
             android:layout_height="match_parent"
-            android:layout_margin="3dp"
             android:layout_toLeftOf="@id/room_join"
             android:id="@+id/room_key"
-            android:textStyle="normal|bold" />
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textStyle="normal" />
 
-        <Button
+
+        <android.support.design.widget.FloatingActionButton
             android:layout_width="0dp"
-            android:layout_weight=".01"
+            android:layout_weight="0.01"
+            android:layout_margin="6dp"
+            android:layout_gravity="center"
             android:layout_height="match_parent"
-            android:layout_margin="5dp"
+            android:clickable="true"
+            android:id="@+id/room_join"
+            android:src="@android:drawable/ic_delete"
+            android:tint="@android:color/white"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:id="@+id/room_join" />
+            app:fabSize="mini" />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/lin_layout_door"
+        android:background="@drawable/line_door"></LinearLayout>
 
 
 </RelativeLayout>

@@ -154,10 +154,10 @@ public class chat_room extends AppCompatActivity implements View.OnClickListener
                                             DialogFragment dialogFrag = new vote_notify();
                                             Bundle b = new Bundle();
                                             if(voteSum > 0){
-                                                b.putString("result", "Passed");
+                                                b.putString("result", "The vote was Passed!");
                                             }
                                             else{
-                                                b.putString("result", "Denied");
+                                                b.putString("result", "The vote was Denied.");
                                             }
                                             dialogFrag.setArguments(b);
                                             dialogFrag.show(getFragmentManager(),"VoteNotify");

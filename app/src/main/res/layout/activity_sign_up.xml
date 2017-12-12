@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context="pdco.pocketdemocracy.sign_up">
     <LinearLayout
         android:layout_centerHorizontal="true"
@@ -11,17 +12,15 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:id="@+id/linearLayout">
 
-        <TextView
-            android:id="@+id/textViewSignUpPage"
-            android:layout_width="match_parent"
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="Sign Up"
-            android:textAlignment="center"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+            android:background="@drawable/pocket"
+            android:layout_gravity="center_horizontal"
+            />
 
         <EditText
             android:layout_margin="15dp"
