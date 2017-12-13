@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -50,8 +51,8 @@ public class chat_room extends AppCompatActivity implements View.OnClickListener
         String keycode = b.getString("key");
         key = keycode;
         //Log.i("KEYCODE IN ROOM",key);
-        FloatingActionButton fab =
-                (FloatingActionButton)findViewById(R.id.fab);
+        Button fab =
+                (Button)findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
