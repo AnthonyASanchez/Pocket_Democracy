@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,6 +42,7 @@ public class chat_room extends AppCompatActivity implements View.OnClickListener
     private long endTimer;
     private long startTimer;
     private String key;
+    private boolean inAddVote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -121,6 +123,9 @@ public class chat_room extends AppCompatActivity implements View.OnClickListener
                                     dialogFrag.show(getFragmentManager(),"VotePrompt");
                                     startTimer = (System.currentTimeMillis()/1000);
                                     endTimer = (System.currentTimeMillis()/1000) + 15;
+                                    Toast toast = Toast.makeText(chat_room.this, "Vote Time: " + (endTimer - startTimer) + " seconds", Toast.LENGTH_LONG);
+                                    toast.setGravity(Gravity.TOP|0, 0, 0);
+                                    toast.show();
                                 }
                             }, 2500);
                             oldTitle = title;
@@ -189,6 +194,7 @@ public class chat_room extends AppCompatActivity implements View.OnClickListener
         };
         t.start();
 
+        inAddVote = false;
         displayChatMessages();
     }
 
@@ -221,11 +227,45 @@ public class chat_room extends AppCompatActivity implements View.OnClickListener
     }
 
     public void addVote(){
-        Bundle b = new Bundle();
-        b.putString("voteReference", candidateReference.toString());
-        Intent intent = new Intent(chat_room.this, create_vote.class);
-        intent.putExtras(b);
-        startActivity(intent);
+        inAddVote = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                candidateReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(final DataSnapshot dataSnapshot) {
+                        //dataSnapshot.getValue(vote.class).getTitle()
+                        String title = dataSnapshot.getValue(vote.class).getTitle();
+                        if(title.equals("empty") && inAddVote){
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Bundle b = new Bundle();
+                                    b.putString("voteReference", candidateReference.toString());
+                                    Intent intent = new Intent(chat_room.this, create_vote.class);
+                                    intent.putExtras(b);
+                                    startActivity(intent);
+                                }
+                            }, 500);
+                        }
+                        else if(inAddVote){
+                            Toast.makeText(chat_room.this, "Vote currently in progress.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(chat_room.this, "Error", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }, 500);
+
+//        Bundle b = new Bundle();
+//        b.putString("voteReference", candidateReference.toString());
+//        Intent intent = new Intent(chat_room.this, create_vote.class);
+//        intent.putExtras(b);
+//        startActivity(intent);
     }
     @Override
     public void onClick(View view) {
