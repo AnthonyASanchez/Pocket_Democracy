@@ -37,6 +37,8 @@ public final class directory extends AppCompatActivity implements View.OnClickLi
     private DatabaseReference user_chat_room_reference;
     private DatabaseReference chat_room_reference;
     private FirebaseListAdapter<chat_door> adapter;
+    private FloatingActionButton info;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +64,9 @@ public final class directory extends AppCompatActivity implements View.OnClickLi
         buttonLogout.setOnClickListener(this);
         createChatButton.setOnClickListener(this);
         joinChatButton.setOnClickListener(this);
+
+        info = (FloatingActionButton) findViewById(R.id.info);
+        info.setOnClickListener(this);
 
         displayRooms();
     }
@@ -209,6 +214,9 @@ public final class directory extends AppCompatActivity implements View.OnClickLi
             firebaseAuth.signOut();
             finish();
             //startActivity(new Intent(this, chat_room.class ));
+        }
+        if(view == info){
+            startActivity(new Intent(this,info.class));
         }
     }
 

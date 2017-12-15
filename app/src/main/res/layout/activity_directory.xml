@@ -14,6 +14,13 @@
         android:background="#ffffff"
         >
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:srcCompat="@android:drawable/ic_menu_info_details" />
+
         <TextView
             android:id="@+id/textViewUserEmail"
             android:layout_width="wrap_content"
@@ -22,6 +29,7 @@
             android:layout_gravity="center_horizontal"
             android:textSize="20sp"
             android:text="Welcome to Pocket Democracy!" />
+
         <LinearLayout
             android:orientation="horizontal"
             android:layout_gravity="center"
